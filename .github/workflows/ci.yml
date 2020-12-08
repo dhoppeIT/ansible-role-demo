@@ -1,0 +1,77 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '0 7 * * 1'
+
+defaults:
+  run:
+    working-directory: 'dhoppeIT.demo'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v2
+        with:
+          path: 'dhoppeIT.demo'
+      - name: Setup Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip setuptools wheel
+          pip3 install yamllint ansible-lint
+      - name: Lint code 
+        run: |
+          yamllint .
+          ansible-lint
+
+  molecule:
+    name: Molecule
+    needs: lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          path: 'dhoppeIT.demo'
+      - name: Setup Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip setuptools wheel
+          pip3 install molecule[ansible-base,docker,lint]
+      - name: Molecule test
+        run: molecule test
+        env:
+          PY_COLORS: 1
+          ANSIBLE_FORCE_COLOR: 1
+          MOLECULE_IMAGE: "${{ matrix.config.image }}"
+          MOLECULE_TAG: "${{ matrix.config.tag }}"
+    strategy:
+      matrix:
+        config:
+          - image: centos
+            tag: 7
+          - image: centos
+            tag: 8
+          - image: debian
+            tag: 9
+          - image: debian
+            tag: 10
+          - image: ubuntu
+            tag: 18.04
+          - image: ubuntu
+            tag: 20.04
+      fail-fast: false

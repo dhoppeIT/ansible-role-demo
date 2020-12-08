@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include ansible-role-demo"
+    - name: "Include dhoppeIT.demo"
       include_role:
-        name: "ansible-role-demo"
+        name: "dhoppeIT.demo"

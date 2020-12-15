@@ -16,20 +16,18 @@ defaults:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v2
         with:
           path: 'dhoppeIT.demo'
-      - name: Setup Python 3
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      # - name: Setup Python 3
+      #    uses: actions/setup-python@v2
+      #    with:
+      #      python-version: '3.x'
       - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip setuptools wheel
-          pip3 install yamllint ansible-lint
+        run: pip3 install yamllint ansible-lint
       - name: Lint code 
         run: |
           yamllint .
@@ -38,20 +36,18 @@ jobs:
   molecule:
     name: Molecule
     needs: lint
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, Linux, ARM64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           path: 'dhoppeIT.demo'
-      - name: Setup Python 3
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      # - name: Setup Python 3
+      #    uses: actions/setup-python@v2
+      #    with:
+      #      python-version: '3.x'
       - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip setuptools wheel
-          pip3 install molecule[ansible-base,docker,lint]
+        run: pip3 install molecule[ansible-base,docker,lint]
       - name: Molecule test
         run: molecule test
         env:

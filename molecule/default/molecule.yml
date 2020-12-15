@@ -8,7 +8,7 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
-  - name: instance
+  - name: ${MOLECULE_INSTANCE:-instance}
     image: "${MOLECULE_NAMESPACE:-dhoppeit}/docker-${MOLECULE_IMAGE:-debian}-systemd:${MOLECULE_TAG:-10}"
     command: ${MOLECULE_COMMAND:-"/sbin/init"}
     volumes:

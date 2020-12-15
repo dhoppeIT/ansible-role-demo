@@ -9,7 +9,7 @@ lint: |
   ansible-lint
 platforms:
   - name: ${MOLECULE_INSTANCE:-instance}
-    image: "${MOLECULE_NAMESPACE:-dhoppeit}/docker-${MOLECULE_IMAGE:-debian}-systemd:${MOLECULE_TAG:-10}"
+    image: "${MOLECULE_NAMESPACE:-dhoppeit}/${MOLECULE_IMAGE:-docker-debian-systemd}:${MOLECULE_TAG:-10}"
     command: ${MOLECULE_COMMAND:-"/sbin/init"}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

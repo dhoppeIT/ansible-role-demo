@@ -54,7 +54,7 @@ jobs:
           PY_COLORS: 1
           ANSIBLE_FORCE_COLOR: 1
           MOLECULE_INSTANCE: "${{ matrix.config.image }}_${{ matrix.config.tag }}_demo"
-          MOLECULE_IMAGE: "${{ matrix.config.image }}"
+          MOLECULE_IMAGE: "docker-${{ matrix.config.image }}-systemd"
           MOLECULE_TAG: "${{ matrix.config.tag }}"
     strategy:
       matrix:

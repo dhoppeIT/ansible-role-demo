@@ -17,6 +17,7 @@ jobs:
   lint:
     name: Lint
     runs-on: [self-hosted, Linux, ARM64]
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v2

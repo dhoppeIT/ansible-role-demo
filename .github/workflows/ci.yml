@@ -16,17 +16,17 @@ defaults:
 jobs:
   lint:
     name: Lint
-    runs-on: [self-hosted, Linux, ARM64]
+    runs-on: ubuntu-20.04
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v2
         with:
           path: 'dhoppeIT.demo'
-      # - name: Set up Python 3
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.x'
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
       - name: Install dependencies
         run: pip3 install yamllint ansible-lint
       - name: Lint code 
@@ -37,16 +37,16 @@ jobs:
   molecule:
     name: Molecule
     needs: lint
-    runs-on: [self-hosted, Linux, ARM64]
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           path: 'dhoppeIT.demo'
-      # - name: Set up Python 3
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.x'
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
       - name: Install dependencies
         run: pip3 install molecule[ansible-base,docker,lint]
       - name: Molecule test

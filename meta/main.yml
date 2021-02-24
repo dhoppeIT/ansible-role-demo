@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: demo
   author: dhoppe
   description: your role description
   company: dhoppe IT CONSULTING
